@@ -1,26 +1,30 @@
 import React from 'react';
 import axios from 'axios';
-import { Button } from 'reactstrap';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
+import { Table } from 'reactstrap';
 import '../css/App.css';
 
-export class Main extends React.Component {
+class Store {
+  @observable students = [];
+}
+@observer
+class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {ponged: 'Not Ponged'}
-
-    this.ping = this.ping.bind(this);
+    this.store = new Store();
   }
 
-  ping() {
-    axios.get('http://localhost:8080/api/ping')
-      .then(response => {
-        this.setState({ponged: 'Ponged!'})
-      }).catch(err => {
-        alert('There was an error');
-        console.log(err);
-      });
-  }
+  // ping() {
+  //   axios.get('http://localhost:8080/api/ping')
+  //     .then(response => {
+  //       this.setState({ ponged: 'Ponged!' })
+  //     }).catch(err => {
+  //       alert('There was an error');
+  //       console.log(err);
+  //     });
+  // }
 
   render() {
     return (
@@ -28,11 +32,27 @@ export class Main extends React.Component {
         <header className="App-header">
           <h1 className="App-title">Project Anacapa</h1>
         </header>
-        <p className="App-intro">
-            <Button onClick={this.ping}>Ping</Button>        
-            <div>Ponged: {this.state.ponged}</div>
-        </p>
+        <h2>Students Table</h2>
+        <p>This is where you can see a list of students and their information</p>
+        <Table>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>4302667</td>
+              <td>Scott</td>
+              <td>Chow</td>
+            </tr>
+          </tbody>
+        </Table>
       </div>
     );
   }
 }
+
+export { Main };
